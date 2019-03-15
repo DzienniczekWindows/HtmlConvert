@@ -21,12 +21,18 @@ namespace HtmlConvert
                 var htmlProperty = property.GetCustomAttribute<HtmlPropertyAttribute>();
                 if (htmlProperty != null)
                 {
-                    switch (htmlProperty.Type)
+                    HtmlNode node = html.DocumentNode.QuerySelector(htmlProperty.CssQuery);
+                    string result;
+
+                    if (htmlProperty.Attribute != null)
                     {
-                        case HtmlPropertyAttribute.ExpressionType.css:
-                            property.SetValue(obj, Convert.ChangeType(html.DocumentNode.QuerySelector(htmlProperty.Expression).InnerText, property.PropertyType));
-                            break;
+                        result = node.GetAttributeValue(htmlProperty.Attribute, null);
                     }
+                    else
+                    {
+                        result = node.InnerText;
+                    }
+                    property.SetValue(obj, Convert.ChangeType(result, property.PropertyType));
                 }
             }
 
