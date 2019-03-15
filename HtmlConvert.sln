@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlConvert", "HtmlConvert\HtmlConvert.csproj", "{882B18A4-90BA-40F6-8FDA-37034526BBC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlConvert.Test", "HtmlConvert.Test\HtmlConvert.Test.csproj", "{95A0C058-BA45-4EA0-A5CA-B44080250BEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{882B18A4-90BA-40F6-8FDA-37034526BBC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{882B18A4-90BA-40F6-8FDA-37034526BBC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{882B18A4-90BA-40F6-8FDA-37034526BBC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95A0C058-BA45-4EA0-A5CA-B44080250BEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95A0C058-BA45-4EA0-A5CA-B44080250BEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95A0C058-BA45-4EA0-A5CA-B44080250BEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95A0C058-BA45-4EA0-A5CA-B44080250BEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
