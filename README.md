@@ -2,7 +2,7 @@
 HtmlConvert is a very small and simple c# library that provides annotation based HTML -> .NET object converter.
 Inspired by `JSON.NET` and `jspoon`, based on `HtmlAgilityPack` and `Hazz`
 
-Sample use
+Example use
 ```csharp
             var testObject = HtmlConvert.DeserializeObject<TestObject>(@"
   <html>
@@ -38,3 +38,5 @@ Sample use
             public bool Bool { get; set; }
         }
 ```
+
+More examples in [unit tests](https://github.com/dzienniczeksharp/HtmlConvert/blob/master/HtmlConvert.Test/UnitTest1.cs)
