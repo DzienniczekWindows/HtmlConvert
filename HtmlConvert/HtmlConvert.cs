@@ -1,13 +1,27 @@
 ﻿using HtmlAgilityPack;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Reflection;
 using Fizzler.Systems.HtmlAgilityPack;
+using System.Collections.Generic;
 
 namespace HtmlConvert
 {
     public static class HtmlConvert
     {
+        private static string GetResult(HtmlNode node, HtmlPropertyAttribute htmlProperty)
+        {
+            if (htmlProperty.Attribute != null)
+            {
+                return node.GetAttributeValue(htmlProperty.Attribute, null);
+            }
+            else
+            {
+                return node.InnerText;
+            }
+        }
+
         public static T DeserializeObject<T>(string source)
         {
             var type = typeof(T);
@@ -21,18 +35,24 @@ namespace HtmlConvert
                 var htmlProperty = property.GetCustomAttribute<HtmlPropertyAttribute>();
                 if (htmlProperty != null)
                 {
-                    HtmlNode node = html.DocumentNode.QuerySelector(htmlProperty.CssQuery);
-                    string result;
+                    // TODO do casts better
+                    if (typeof(IList).IsAssignableFrom(property.PropertyType))
+                    {
+                        IEnumerable<HtmlNode> nodes = html.DocumentNode.QuerySelectorAll(htmlProperty.CssQuery);
+                        var listItemType = property.PropertyType.GetGenericArguments()[0];
 
-                    if (htmlProperty.Attribute != null)
-                    {
-                        result = node.GetAttributeValue(htmlProperty.Attribute, null);
+                        var newList = nodes.Select(x => Convert.ChangeType(GetResult(x, htmlProperty), listItemType));
+
+                        // Invoke linq's cast by reflection to avoid generic type
+                        var enumerable = typeof(IEnumerable).GetExtensionMethod("Cast").MakeGenericMethod(listItemType).Invoke(newList, new[] { newList });
+
+                        // create new list from enumerable
+                        property.SetConvertedValue(obj, Activator.CreateInstance(typeof(List<>).MakeGenericType(listItemType), new[] { enumerable }));
+                        continue;
                     }
-                    else
-                    {
-                        result = node.InnerText;
-                    }
-                    property.SetValue(obj, Convert.ChangeType(result, property.PropertyType));
+
+                    HtmlNode node = html.DocumentNode.QuerySelector(htmlProperty.CssQuery);
+                    property.SetConvertedValue(obj, GetResult(node, htmlProperty));
                 }
             }
 
