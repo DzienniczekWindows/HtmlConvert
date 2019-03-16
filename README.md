@@ -1,3 +1,5 @@
+![Nuget](https://img.shields.io/nuget/v/HtmlConvert.svg)
+![AppVeyor](https://ci.appveyor.com/api/projects/status/cleo7yrldrp96r3c?svg=true)
 # HtmlConvert
 HtmlConvert is a very small and simple c# library that provides annotation based HTML -> .NET object converter.
 Inspired by `JSON.NET` and `jspoon`, based on `HtmlAgilityPack` and `Hazz`
