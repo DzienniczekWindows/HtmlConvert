@@ -18,6 +18,7 @@ namespace HtmlConvert.Test
                         <p>HTML to .NET object converter</p>
                     </div>
                     <p class='number'>3</p>
+                    <p class='numbertext'>No u, part 2</p>
                     <p class='bool'>false</p>
                     <form method='POST' name='hiddenform' action='test.php'>
                         <input type='hidden' name='hiddeninput' value='samplevalue' />
@@ -39,6 +40,7 @@ namespace HtmlConvert.Test
             Assert.Equal("HtmlConvert", testObject.Title);
             Assert.Equal("HTML to .NET object converter", testObject.Description);
             Assert.Equal(3, testObject.Number);
+            Assert.Equal(2, testObject.NumberButInText);
             Assert.False(testObject.Bool);
             Assert.Equal("test.php", testObject.Action);
             Assert.Equal("samplevalue", testObject.InputValue);
@@ -59,6 +61,9 @@ namespace HtmlConvert.Test
 
             [HtmlProperty(".number")]
             public int Number { get; set; }
+
+            [HtmlProperty(".numbertext", regex: @"\d+")]
+            public int NumberButInText { get; set; }
 
             [HtmlProperty(".bool")]
             public bool Bool { get; set; }

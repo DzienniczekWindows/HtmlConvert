@@ -9,11 +9,13 @@ namespace HtmlConvert
     {
         public string CssQuery { get; set; }
         public string Attribute { get; set; }
+        public string Regex { get; set; }
 
-        public HtmlPropertyAttribute(string cssQuery, string attribute = null)
+        public HtmlPropertyAttribute(string cssQuery, string attribute = null, string regex = null)
         {
             CssQuery = cssQuery;
             Attribute = attribute;
+            Regex = regex;
         }
     }
 }

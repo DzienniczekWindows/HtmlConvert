@@ -16,7 +16,10 @@ namespace HtmlConvert
             if (value.GetType() == info.PropertyType)
             {
                 convertedValue = value;
-            }else if (typeof(IConvertible).IsAssignableFrom(value.GetType()))
+            }else if (info.PropertyType.IsHtmlConvertible() && value.GetType() == typeof(string))
+            {
+                convertedValue = HtmlConvert.DeserializeObject(info.PropertyType, (string)value);
+            }else if(typeof(IConvertible).IsAssignableFrom(value.GetType()))
             {
                 convertedValue = Convert.ChangeType(value, info.PropertyType);
             }else
@@ -31,14 +34,6 @@ namespace HtmlConvert
 
             info.SetValue(instance, convertedValue, null);
         }
-
-        /// <summary>
-        /// This Methode extends the System.Type-type to get all extended methods. It searches hereby in all assemblies which are known by the current AppDomain.
-        /// </summary>
-        /// <remarks>
-        /// Insired by Jon Skeet from his answer on http://stackoverflow.com/questions/299515/c-sharp-reflection-to-identify-extension-methods
-        /// </remarks>
-        /// <returns>returns MethodInfo[] with the extended Method</returns>
 
         public static MethodInfo[] GetExtensionMethods(this Type t)
         {
@@ -58,11 +53,6 @@ namespace HtmlConvert
             return query.ToArray<MethodInfo>();
         }
 
-        /// <summary>
-        /// Extends the System.Type-type to search for a given extended MethodeName.
-        /// </summary>
-        /// <param name="MethodeName">Name of the Methode</param>
-        /// <returns>the found Methode or null</returns>
         public static MethodInfo GetExtensionMethod(this Type t, string MethodeName)
         {
             var mi = from methode in t.GetExtensionMethods()
@@ -72,6 +62,11 @@ namespace HtmlConvert
                 return null;
             else
                 return mi.First<MethodInfo>();
+        }
+
+        public static bool IsHtmlConvertible(this Type type)
+        {
+            return type.GetProperties().Any(info => info.GetCustomAttribute<HtmlPropertyAttribute>() != null);
         }
     }
 }
